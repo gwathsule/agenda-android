@@ -29,4 +29,14 @@ public class Contatos extends AppCompatActivity implements android.view.View.OnC
         Intent it = new Intent(this, NovoContato.class);
         startActivity(it);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        /*getMenuInflater().inflate(R.menu.menu, menu);
+        return true; // codigo que o alexandre me enviou*/
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
 }
