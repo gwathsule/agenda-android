@@ -18,6 +18,7 @@ public class AtContatos extends AppCompatActivity implements android.view.View.O
     private EditText txtPesquisa;
     private ListView lstContatos;
     private CtrContatos control;
+    private ArrayAdapter<String>  adpContatos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -26,23 +27,8 @@ public class AtContatos extends AppCompatActivity implements android.view.View.O
         control = new CtrContatos(this);
         iniciarComponentes();
         iniciarBD();
-    }
-
-    public void iniciarBD(){
-
-        //inicia o SQL Lite
-        try {
-            control.conexaoSQLite();
-            AlertDialog.Builder spam = new AlertDialog.Builder(this);
-            spam.setMessage("Conexão criada com sucesso");
-            spam.setNeutralButton("OK", null);
-            spam.show();
-        } catch (SQLException ex){
-            AlertDialog.Builder spam = new AlertDialog.Builder(this);
-            spam.setMessage("Erro ao criar o banco: " + ex.getMessage());
-            spam.setNeutralButton("OK", null);
-            spam.show();
-        }
+        adpContatos = control.getListaContatos();
+        lstContatos.setAdapter(adpContatos);
     }
 
     @Override
@@ -64,5 +50,22 @@ public class AtContatos extends AppCompatActivity implements android.view.View.O
         txtPesquisa = (EditText) findViewById(R.id.txtPesquisa);
         lstContatos = (ListView) findViewById(R.id.lstContatos);
         btAdicionar.setOnClickListener(this);
+    }
+
+    public void iniciarBD(){
+
+        //inicia o SQL Lite
+        try {
+            control.inicarConexaoSQLite();
+            AlertDialog.Builder spam = new AlertDialog.Builder(this);
+            spam.setMessage("Conexão criada com sucesso");
+            spam.setNeutralButton("OK", null);
+            spam.show();
+        } catch (SQLException ex){
+            AlertDialog.Builder spam = new AlertDialog.Builder(this);
+            spam.setMessage("Erro ao criar o banco: " + ex.getMessage());
+            spam.setNeutralButton("OK", null);
+            spam.show();
+        }
     }
 }
