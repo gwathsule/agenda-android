@@ -1,4 +1,4 @@
-package com.example.rafael.agenda_contatos;
+package com.example.rafael.agenda_contatos.view;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,9 +9,11 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.example.rafael.agenda_contatos.R;
+
 import java.lang.reflect.Array;
 
-public class NovoContato extends AppCompatActivity {
+public class AtNovoContato extends AppCompatActivity {
 
     private EditText txtNome;
     private EditText txtTelefone;
@@ -35,7 +37,35 @@ public class NovoContato extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.novo_contato);
+        iniciarComponentes();
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        /*getMenuInflater().inflate(R.menu.menu, menu);
+        return true; // codigo que o alexandre me enviou*/
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.mn_acao1:
+
+                break;
+            case R.id.mn_acao2:
+
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void iniciarComponentes(){
         txtNome = (EditText) findViewById(R.id.txtNome);
         txtTelefone = (EditText) findViewById(R.id.txtTelefone);
         txtEmail = (EditText) findViewById(R.id.txtEmail);
@@ -84,30 +114,5 @@ public class NovoContato extends AppCompatActivity {
         adpTipoDatasEspeciais.add("Aniversário");
         adpTipoDatasEspeciais.add("Morte");
         adpTipoDatasEspeciais.add("Outros");
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        /*getMenuInflater().inflate(R.menu.menu, menu);
-        return true; // codigo que o alexandre me enviou*/
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
-
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()){
-            case R.id.mn_acao1:
-
-                break;
-            case R.id.mn_acao2:
-
-                break;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }
