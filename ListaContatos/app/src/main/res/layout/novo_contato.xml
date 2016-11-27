@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.rafael.agenda_contatos.NovoCliente"
+    tools:context="com.example.rafael.agenda_contatos.NovoContato"
     android:orientation="vertical">
 
     <LinearLayout
@@ -51,7 +51,7 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <EditText
                 android:layout_width="match_parent"
@@ -63,7 +63,7 @@
 
             <Spinner
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/spnTipoTelefone"
                 android:layout_weight="1" />
         </LinearLayout>
@@ -90,7 +90,7 @@
             android:layout_weight="1">
 
             <EditText
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:id="@+id/txtEmail"
@@ -99,7 +99,7 @@
 
             <Spinner
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/spnTipoEmail"
                 android:layout_weight="1" />
         </LinearLayout>
@@ -126,7 +126,7 @@
             android:layout_weight="1">
 
             <EditText
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
                 android:ems="10"
@@ -135,7 +135,7 @@
 
             <Spinner
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/spnTipoEndereco"
                 android:layout_weight="1" />
         </LinearLayout>
@@ -162,7 +162,7 @@
             android:layout_weight="1">
 
             <EditText
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName|date"
                 android:ems="10"
@@ -171,7 +171,7 @@
 
             <Spinner
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/spnTipoDatasEspeciais"
                 android:layout_weight="1" />
         </LinearLayout>
