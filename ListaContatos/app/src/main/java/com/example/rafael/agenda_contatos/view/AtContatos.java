@@ -1,6 +1,7 @@
 package com.example.rafael.agenda_contatos.view;
 
 import android.database.SQLException;
+import android.os.Parcelable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,14 +12,18 @@ import android.content.*;
 import com.example.rafael.agenda_contatos.R;
 import com.example.rafael.agenda_contatos.control.CtrContatos;
 import com.example.rafael.agenda_contatos.dao.SQLite_DB;
+import com.example.rafael.agenda_contatos.model.Contato;
+
+import java.io.Serializable;
 
 public class AtContatos extends AppCompatActivity implements android.view.View.OnClickListener {
 
     private ImageButton btAdicionar;
     private EditText txtPesquisa;
     private ListView lstContatos;
-    private CtrContatos control;
-    private ArrayAdapter<String>  adpContatos;
+    private transient CtrContatos control;
+    private ArrayAdapter<Contato>  adpContatos;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -34,7 +39,14 @@ public class AtContatos extends AppCompatActivity implements android.view.View.O
     @Override
     public void onClick(View v) {
         Intent it = new Intent(this, AtNovoContato.class);
-        startActivity(it);
+
+        startActivityForResult(it, 0);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        adpContatos = control.getListaContatos();
+        lstContatos.setAdapter(adpContatos);
     }
 
     @Override
@@ -57,10 +69,6 @@ public class AtContatos extends AppCompatActivity implements android.view.View.O
         //inicia o SQL Lite
         try {
             control.inicarConexaoSQLite();
-            AlertDialog.Builder spam = new AlertDialog.Builder(this);
-            spam.setMessage("Conexão criada com sucesso");
-            spam.setNeutralButton("OK", null);
-            spam.show();
         } catch (SQLException ex){
             AlertDialog.Builder spam = new AlertDialog.Builder(this);
             spam.setMessage("Erro ao criar o banco: " + ex.getMessage());
@@ -68,4 +76,5 @@ public class AtContatos extends AppCompatActivity implements android.view.View.O
             spam.show();
         }
     }
+
 }

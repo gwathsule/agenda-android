@@ -1,5 +1,7 @@
 package com.example.rafael.agenda_contatos.view;
 
+import android.database.SQLException;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,8 +12,11 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.example.rafael.agenda_contatos.R;
+import com.example.rafael.agenda_contatos.control.CtrContatos;
+import com.example.rafael.agenda_contatos.model.Contato;
 
 import java.lang.reflect.Array;
+import java.util.Date;
 
 public class AtNovoContato extends AppCompatActivity {
 
@@ -32,12 +37,17 @@ public class AtNovoContato extends AppCompatActivity {
     private ArrayAdapter<String> adpTipoEndereco;
     private ArrayAdapter<String> adpTipoDatasEspeciais;
 
+    private transient CtrContatos control;
+    Contato contato;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.novo_contato);
+        control = new CtrContatos(this);
         iniciarComponentes();
+        iniciarBD();
     }
 
     @Override
@@ -55,7 +65,12 @@ public class AtNovoContato extends AppCompatActivity {
 
         switch (item.getItemId()){
             case R.id.mn_acao1:
+                    if(contato == null){
+                        inserir();
+                    } else {
 
+                    }
+                    finish();
                 break;
             case R.id.mn_acao2:
 
@@ -63,6 +78,43 @@ public class AtNovoContato extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void inserir(){
+
+        try {
+            contato = new Contato();
+
+            contato.setNome(txtNome.getText().toString());
+            contato.setDatasEspeciais(new Date());
+            contato.setEmail(txtEmail.getText().toString());
+            contato.setEndereco(txtEndereço.getText().toString());
+            contato.setGrupos(txtGrupo.getText().toString());
+            contato.setTelefone(txtTelefone.getText().toString());
+
+            control.inserirContato(contato);
+        } catch (SQLException ex){
+            info(ex.getMessage());
+        } catch (Exception ex){
+            info(ex.getMessage());
+        }
+    }
+
+    private void info(String info){
+        AlertDialog.Builder spam = new AlertDialog.Builder(this);
+        spam.setMessage(info);
+        spam.setNeutralButton("OK", null);
+        spam.show();
+    }
+
+    public void iniciarBD(){
+
+        //inicia o SQL Lite
+        try {
+            control.inicarConexaoSQLite();
+        } catch (SQLException ex){
+            info("Erro na criação do banco: " + ex.getMessage());
+        }
     }
 
     private void iniciarComponentes(){

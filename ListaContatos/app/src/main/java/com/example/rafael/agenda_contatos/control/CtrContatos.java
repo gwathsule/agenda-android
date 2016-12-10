@@ -3,11 +3,13 @@ package com.example.rafael.agenda_contatos.control;
 import android.content.ContentValues;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ArrayAdapter;
 
 
 import com.example.rafael.agenda_contatos.dao.ContatoDAO;
 import com.example.rafael.agenda_contatos.dao.SQLite_DB;
+import com.example.rafael.agenda_contatos.model.Contato;
 import com.example.rafael.agenda_contatos.view.AtContatos;
 
 /**
@@ -18,28 +20,24 @@ public class CtrContatos {
 
     private SQLite_DB sqlite_db;
     private SQLiteDatabase sqlite_conexao;
-    private AtContatos atContatos;
+    private AppCompatActivity activity;
     private ContatoDAO contatoDAO;
 
-    public CtrContatos(AtContatos atContatos) {
-        this.atContatos = atContatos;
+    public CtrContatos(AppCompatActivity activity) {
+        this.activity = activity;
         this.contatoDAO = new ContatoDAO();
     }
 
     public void inicarConexaoSQLite() throws SQLException{
-        sqlite_db = new SQLite_DB(atContatos);
-        sqlite_conexao = sqlite_db.getWritableDatabase();
-
-        //teste
-        for(int i=0; i<10; i++) {
-            ContentValues c = new ContentValues();
-            c.put("TELEFONE", "123456789");
-            sqlite_conexao.insertOrThrow("CONTATO", null, c);
-        }
-        //
+        this.sqlite_db = new SQLite_DB(activity);
+        this.sqlite_conexao = sqlite_db.getWritableDatabase();
     }
 
-    public ArrayAdapter<String> getListaContatos(){
-        return contatoDAO.buscaContatosSQLite(sqlite_conexao, atContatos);
+    public ArrayAdapter<Contato> getListaContatos() {
+        return contatoDAO.buscaContatosSQLite(sqlite_conexao, activity);
+    }
+
+    public void inserirContato(Contato contato){
+        contatoDAO.inserirContato(contato, sqlite_conexao);
     }
 }

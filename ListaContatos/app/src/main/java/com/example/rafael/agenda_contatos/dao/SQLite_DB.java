@@ -7,7 +7,9 @@ package com.example.rafael.agenda_contatos.dao;
 import android.content.Context;
 import android.database.sqlite.*;
 
-public class SQLite_DB extends SQLiteOpenHelper{
+import java.io.Serializable;
+
+public class SQLite_DB extends SQLiteOpenHelper {
 
     public SQLite_DB(Context context) {
         super(context, "agenda_contatos", null, 1);

@@ -1,5 +1,7 @@
 package com.example.rafael.agenda_contatos.dao;
 
+import java.io.Serializable;
+
 /**
  * Created by Rafael on 27/11/2016.
  */
@@ -10,6 +12,7 @@ public class ScriptSQLite {
         sqlBuilder.append("CREATE TABLE IF NOT EXISTS CONTATO (" );
         sqlBuilder.append("_id					INTEGER       NOT NULL ");
         sqlBuilder.append("						PRIMARY KEY AUTOINCREMENT, ");
+        sqlBuilder.append("NOME 				VARCHAR (200), ");
         sqlBuilder.append("TELEFONE				VARCHAR (14), ");
         sqlBuilder.append("TIPOTELEFONE			VARCHAR (1), ");
         sqlBuilder.append("EMAIL				VARCHAR (255), ");
