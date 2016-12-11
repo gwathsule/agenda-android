@@ -62,8 +62,10 @@ public class AtNovoContato extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
 
-        if (contato.getId() != 0)
+        if (contato.getId() != 0) {
             menu.getItem(1).setVisible(true);
+            menu.getItem(0).setTitle(R.string.lbl_alterar);
+        }
 
         return  super.onCreateOptionsMenu(menu);
     }
