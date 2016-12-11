@@ -2,6 +2,9 @@ package com.example.rafael.agenda_contatos.view;
 
 import android.database.SQLException;
 import android.os.Parcelable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,10 +16,13 @@ import com.example.rafael.agenda_contatos.R;
 import com.example.rafael.agenda_contatos.control.CtrContatos;
 import com.example.rafael.agenda_contatos.dao.SQLite_DB;
 import com.example.rafael.agenda_contatos.model.Contato;
+import com.example.rafael.agenda_contatos.view.fragments.Frg_contatos;
 
 import java.io.Serializable;
 
-public class AtContatos extends AppCompatActivity implements android.view.View.OnClickListener, AdapterView.OnItemClickListener {
+public class AtContatos extends FragmentActivity implements android.view.View.OnClickListener, AdapterView.OnItemClickListener {
+
+    FragmentManager fm = getSupportFragmentManager();
 
     private ImageButton btAdicionar;
     private EditText txtPesquisa;
@@ -35,6 +41,12 @@ public class AtContatos extends AppCompatActivity implements android.view.View.O
         adpContatos = control.getListaContatos();
         lstContatos.setAdapter(adpContatos);
         lstContatos.setOnItemClickListener(this);
+        //fragments
+        /*String[] lista = new String[]{"Fragment 1", "Altera Texto Fragment 1", "Fragment 2", "Fragment 3"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, lista);
+        ListView lv =(ListView) findViewById(R.id.lstContatos);
+        lv.setAdapter(adapter);*/
+
     }
 
     @Override
@@ -60,16 +72,18 @@ public class AtContatos extends AppCompatActivity implements android.view.View.O
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Contato contato = adpContatos.getItem(position);
 
+        Contato contato = adpContatos.getItem(position);
+        /* CODIGO ANTES DO FRAGMENT
         Intent it = new Intent(this, AtNovoContato.class);
         it.putExtra("CONTATO", contato);
-        startActivityForResult(it, 0);
+        startActivityForResult(it, 0);*/
+        Frg_contatos frag1 = (Frg_contatos) fm.findFragmentById(R.id.fragment);
+        frag1.alteraTextView(contato.getNome());
     }
 
     private void iniciarComponentes(){
         btAdicionar = (ImageButton) findViewById(R.id.btAdicionar);
-        txtPesquisa = (EditText) findViewById(R.id.txtPesquisa);
         lstContatos = (ListView) findViewById(R.id.lstContatos);
         btAdicionar.setOnClickListener(this);
     }

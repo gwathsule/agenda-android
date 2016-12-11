@@ -1,5 +1,6 @@
 package com.example.rafael.agenda_contatos.control;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -20,10 +21,10 @@ public class CtrContatos {
 
     private SQLite_DB sqlite_db;
     private SQLiteDatabase sqlite_conexao;
-    private AppCompatActivity activity;
+    private Activity activity;
     private ContatoDAO contatoDAO;
 
-    public CtrContatos(AppCompatActivity activity) {
+    public CtrContatos(Activity activity) {
         this.activity = activity;
         this.contatoDAO = new ContatoDAO();
     }
