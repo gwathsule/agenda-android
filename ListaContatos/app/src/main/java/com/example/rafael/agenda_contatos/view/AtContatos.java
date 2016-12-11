@@ -49,14 +49,13 @@ public class AtContatos extends FragmentActivity implements android.view.View.On
         lstContatos.setOnItemClickListener(this);
         if (!(config.orientation == Configuration.ORIENTATION_LANDSCAPE)){//Cel deitado
             frg_contatos.getView().setVisibility(View.GONE);
-            frg_contatos.alteraTextView("");
             lnl_lista.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
         }
     }
 
     @Override
     public void onClick(View v) {
-        Intent it = new Intent(this, AtNovoContato.class);
+            Intent it = new Intent(this, AtNovoContato.class);
 
         startActivityForResult(it, 0);
     }
@@ -81,7 +80,7 @@ public class AtContatos extends FragmentActivity implements android.view.View.On
         Contato contato = adpContatos.getItem(position);
 
         if (config.orientation == Configuration.ORIENTATION_LANDSCAPE){//em pé
-            frg_contatos.alteraTextView(contato.getNome());
+            frg_contatos.preencherDadosContato(contato);
         }else{//deitado
             Intent it = new Intent(this, AtNovoContato.class);
             it.putExtra("CONTATO", contato);
