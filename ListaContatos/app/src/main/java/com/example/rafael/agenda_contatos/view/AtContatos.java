@@ -1,5 +1,6 @@
 package com.example.rafael.agenda_contatos.view;
 
+import android.content.res.Configuration;
 import android.database.SQLException;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
@@ -20,15 +21,20 @@ import com.example.rafael.agenda_contatos.view.fragments.Frg_contatos;
 
 import java.io.Serializable;
 
+import static android.R.attr.fragment;
+
 public class AtContatos extends FragmentActivity implements android.view.View.OnClickListener, AdapterView.OnItemClickListener {
 
     FragmentManager fm = getSupportFragmentManager();
 
     private ImageButton btAdicionar;
-    private EditText txtPesquisa;
     private ListView lstContatos;
     private transient CtrContatos control;
     private ArrayAdapter<Contato>  adpContatos;
+    private LinearLayout lnl_lista;
+    Frg_contatos frg_contatos;
+    Configuration config;
+
 
 
     @Override
@@ -41,12 +47,11 @@ public class AtContatos extends FragmentActivity implements android.view.View.On
         adpContatos = control.getListaContatos();
         lstContatos.setAdapter(adpContatos);
         lstContatos.setOnItemClickListener(this);
-        //fragments
-        /*String[] lista = new String[]{"Fragment 1", "Altera Texto Fragment 1", "Fragment 2", "Fragment 3"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, lista);
-        ListView lv =(ListView) findViewById(R.id.lstContatos);
-        lv.setAdapter(adapter);*/
-
+        if (!(config.orientation == Configuration.ORIENTATION_LANDSCAPE)){//Cel deitado
+            frg_contatos.getView().setVisibility(View.GONE);
+            frg_contatos.alteraTextView("");
+            lnl_lista.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+        }
     }
 
     @Override
@@ -74,18 +79,23 @@ public class AtContatos extends FragmentActivity implements android.view.View.On
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
         Contato contato = adpContatos.getItem(position);
-        /* CODIGO ANTES DO FRAGMENT
-        Intent it = new Intent(this, AtNovoContato.class);
-        it.putExtra("CONTATO", contato);
-        startActivityForResult(it, 0);*/
-        Frg_contatos frag1 = (Frg_contatos) fm.findFragmentById(R.id.fragment);
-        frag1.alteraTextView(contato.getNome());
+
+        if (config.orientation == Configuration.ORIENTATION_LANDSCAPE){//em pé
+            frg_contatos.alteraTextView(contato.getNome());
+        }else{//deitado
+            Intent it = new Intent(this, AtNovoContato.class);
+            it.putExtra("CONTATO", contato);
+            startActivityForResult(it, 0);
+        }
     }
 
     private void iniciarComponentes(){
         btAdicionar = (ImageButton) findViewById(R.id.btAdicionar);
         lstContatos = (ListView) findViewById(R.id.lstContatos);
         btAdicionar.setOnClickListener(this);
+        config = getResources().getConfiguration();
+        frg_contatos = (Frg_contatos) fm.findFragmentById(R.id.fragment);
+        lnl_lista = (LinearLayout) findViewById(R.id.lnl_lista);
     }
 
     public void iniciarBD(){
@@ -99,5 +109,12 @@ public class AtContatos extends FragmentActivity implements android.view.View.On
             spam.setNeutralButton("OK", null);
             spam.show();
         }
+    }
+
+    private void info(String info){
+        AlertDialog.Builder spam = new AlertDialog.Builder(this);
+        spam.setMessage(info);
+        spam.setNeutralButton("OK", null);
+        spam.show();
     }
 }
