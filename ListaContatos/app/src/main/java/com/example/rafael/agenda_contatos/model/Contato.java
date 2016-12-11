@@ -1,12 +1,28 @@
 package com.example.rafael.agenda_contatos.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by Rafael on 28/11/2016.
  */
 
-public class Contato {
+public class Contato implements Serializable{
+
+    //nome de cada campo represenado na tabela
+    public static String ID = "_id";
+    public static String NOME = "NOME";
+    public static String TELEFONE = "TELEFONE";
+    public static String TIPOTELEFONE = "TIPOTELEFONE";
+    public static String EMAIL = "EMAIL";
+    public static String TIPOEMAIL = "TIPOEMAIL";
+    public static String ENDERECO = "ENDERECO";
+    public static String TIPOENDERECO = "TIPOENDERECO";
+    public static String DATASESPECIAIS = "DATASESPECIAIS";
+    public static String TIPODATASESPECIAIS = "TIPODATASESPECIAIS";
+    public static String GRUPOS = "GRUPOS";
+
+    //atributos da classe
     private long id;
     private String nome;
     private String telefone;
@@ -20,33 +36,7 @@ public class Contato {
     private String grupos;
 
     public Contato() {
-    }
-
-    public Contato(String nome, String telefone, String tipoTelefone, String email, String tipoEmail, String endereco, String tipoEndereco, Date datasEspeciais, String tipoDatasEspeciais, String grupos) {
-        this.nome = nome;
-        this.telefone = telefone;
-        this.tipoTelefone = tipoTelefone;
-        this.email = email;
-        this.tipoEmail = tipoEmail;
-        this.endereco = endereco;
-        this.tipoEndereco = tipoEndereco;
-        this.datasEspeciais = datasEspeciais;
-        this.tipoDatasEspeciais = tipoDatasEspeciais;
-        this.grupos = grupos;
-    }
-
-    public Contato(long id, String nome, String telefone, String tipoTelefone, String email, String tipoEmail, String endereco, String tipoEndereco, Date datasEspeciais, String tipoDatasEspeciais, String grupos) {
-        this.id = id;
-        this.nome = nome;
-        this.telefone = telefone;
-        this.tipoTelefone = tipoTelefone;
-        this.email = email;
-        this.tipoEmail = tipoEmail;
-        this.endereco = endereco;
-        this.tipoEndereco = tipoEndereco;
-        this.datasEspeciais = datasEspeciais;
-        this.tipoDatasEspeciais = tipoDatasEspeciais;
-        this.grupos = grupos;
+        this.id = 0;
     }
 
     public long getId() {

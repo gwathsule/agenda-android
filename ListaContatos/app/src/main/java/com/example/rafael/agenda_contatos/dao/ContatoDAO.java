@@ -33,16 +33,17 @@ public class ContatoDAO {
 
                 Contato contato = new Contato();
 
-                contato.setNome(cursor.getString(1));
-                contato.setTelefone(cursor.getString(2));
-                contato.setTipoTelefone(cursor.getString(3));
-                contato.setEmail(cursor.getString(4));
-                contato.setTipoEmail(cursor.getString(5));
-                contato.setEndereco(cursor.getString(6));
-                contato.setTipoEndereco(cursor.getString(7));
-                contato.setDatasEspeciais(new Date(cursor.getLong(8)));
-                contato.setTipoDatasEspeciais(cursor.getString(9));
-                contato.setGrupos(cursor.getString(10));
+                contato.setId(cursor.getLong(cursor.getColumnIndex(contato.ID)));
+                contato.setNome(cursor.getString(cursor.getColumnIndex(contato.NOME)));
+                contato.setTelefone(cursor.getString(cursor.getColumnIndex(contato.TELEFONE)));
+                contato.setTipoTelefone(cursor.getString(cursor.getColumnIndex(contato.TIPOTELEFONE)));
+                contato.setEmail(cursor.getString(cursor.getColumnIndex(contato.EMAIL)));
+                contato.setTipoEmail(cursor.getString(cursor.getColumnIndex(contato.TIPOEMAIL)));
+                contato.setEndereco(cursor.getString(cursor.getColumnIndex(contato.ENDERECO)));
+                contato.setTipoEndereco(cursor.getString(cursor.getColumnIndex(contato.TIPOENDERECO)));
+                contato.setDatasEspeciais(new Date(cursor.getLong(cursor.getColumnIndex(contato.DATASESPECIAIS))));
+                contato.setTipoDatasEspeciais(cursor.getString(cursor.getColumnIndex(contato.TIPODATASESPECIAIS)));
+                contato.setGrupos(cursor.getString(cursor.getColumnIndex(contato.GRUPOS)));
 
                 adpContatos.add(contato);
 
@@ -52,7 +53,7 @@ public class ContatoDAO {
         return adpContatos;
     }
 
-    public void inserirContato(Contato contato, SQLiteDatabase conexao){
+    private ContentValues preencheContentValues(Contato contato){
         ContentValues values = new ContentValues();
 
         values.put("NOME", contato.getNome());
@@ -66,6 +67,20 @@ public class ContatoDAO {
         values.put("TIPODATASESPECIAIS", contato.getTipoDatasEspeciais());
         values.put("GRUPOS", contato.getGrupos());
 
+        return values;
+    }
+
+    public void inserirContato(Contato contato, SQLiteDatabase conexao){
+        ContentValues values = preencheContentValues(contato);
         conexao.insertOrThrow("CONTATO", null, values);
+    }
+
+    public void alterarContato(Contato contato, SQLiteDatabase conexao){
+        ContentValues values = preencheContentValues(contato);
+        conexao.update("CONTATO", values, " _id = ?", new String[]{String.valueOf(contato.getId())});
+    }
+
+    public void excluirContato(long id, SQLiteDatabase conexao){
+        conexao.delete("CONTATO",  " _id = ?", new String[]{String.valueOf(id)});
     }
 }

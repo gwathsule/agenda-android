@@ -62,7 +62,10 @@ public class AtNovoContato extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
 
-        return super.onCreateOptionsMenu(menu);
+        if (contato.getId() != 0)
+            menu.getItem(1).setVisible(true);
+
+        return  super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -70,23 +73,49 @@ public class AtNovoContato extends AppCompatActivity {
 
         switch (item.getItemId()){
             case R.id.mn_acao1:
-                    if(contato == null){
-                        inserir();
-                    } else {
-
-                    }
+                    salvar();
                     finish();
                 break;
             case R.id.mn_acao2:
-
+                    excluir();
+                    finish();
                 break;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void inserir(){
+    private void excluir(){
+        try{
 
+            control.excluirContato(contato.getId());
+
+        } catch (SQLException ex){
+            info(ex.getMessage());
+        } catch (Exception ex){
+            info(ex.getMessage());
+        }
+    }
+
+    private void preencherDadosContato(){
+        txtNome.setText(contato.getNome());
+        txtTelefone.setText(contato.getTelefone());
+        txtEmail.setText(contato.getEmail());
+        txtEndereço.setText(contato.getEndereco());
+
+        DateFormat format = DateFormat.getDateInstance(DateFormat.MEDIUM);
+        String dt = format.format(contato.getDatasEspeciais());
+        txtDatasEspeciais.setText(dt);
+
+        txtGrupo.setText(contato.getGrupos());
+
+        spnTipoTelefone.setSelection(Integer.parseInt(contato.getTipoTelefone()));
+        spnTipoEmail.setSelection(Integer.parseInt(contato.getTipoEmail()));
+        spnTipoEndereco.setSelection(Integer.parseInt(contato.getTipoEndereco()));
+        spnTipoDatasEspeciais.setSelection(Integer.parseInt(contato.getTipoDatasEspeciais()));
+    }
+
+    private void salvar(){
         try {
             contato.setNome(txtNome.getText().toString());
             contato.setEmail(txtEmail.getText().toString());
@@ -100,8 +129,11 @@ public class AtNovoContato extends AppCompatActivity {
             contato.setTipoEmail(String.valueOf(spnTipoEmail.getSelectedItemPosition()));
 
 
-
-            control.inserirContato(contato);
+            if(contato.getId() == 0){
+                control.inserirContato(contato);
+            } else {
+                control.alterarContato(contato);
+            }
         } catch (SQLException ex){
             info(ex.getMessage());
         } catch (Exception ex){
@@ -179,7 +211,17 @@ public class AtNovoContato extends AppCompatActivity {
         ExibeDataListener dateListener = new ExibeDataListener();
         txtDatasEspeciais.setOnClickListener(dateListener);
         txtDatasEspeciais.setOnFocusChangeListener(dateListener);
-        contato = new Contato();
+
+        Bundle bundle =  getIntent().getExtras();
+
+        if((bundle != null ) && (bundle.containsKey("CONTATO"))){
+            contato = (Contato) bundle.getSerializable("CONTATO");
+            preencherDadosContato();
+            //info("tem um contto aqui!: " + contato.getNome());
+        } else {
+            contato = new Contato();
+            //info("nada de contatos");
+        }
 
     }
 

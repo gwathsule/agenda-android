@@ -16,7 +16,7 @@ import com.example.rafael.agenda_contatos.model.Contato;
 
 import java.io.Serializable;
 
-public class AtContatos extends AppCompatActivity implements android.view.View.OnClickListener {
+public class AtContatos extends AppCompatActivity implements android.view.View.OnClickListener, AdapterView.OnItemClickListener {
 
     private ImageButton btAdicionar;
     private EditText txtPesquisa;
@@ -34,6 +34,7 @@ public class AtContatos extends AppCompatActivity implements android.view.View.O
         iniciarBD();
         adpContatos = control.getListaContatos();
         lstContatos.setAdapter(adpContatos);
+        lstContatos.setOnItemClickListener(this);
     }
 
     @Override
@@ -57,6 +58,15 @@ public class AtContatos extends AppCompatActivity implements android.view.View.O
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Contato contato = adpContatos.getItem(position);
+
+        Intent it = new Intent(this, AtNovoContato.class);
+        it.putExtra("CONTATO", contato);
+        startActivityForResult(it, 0);
+    }
+
     private void iniciarComponentes(){
         btAdicionar = (ImageButton) findViewById(R.id.btAdicionar);
         txtPesquisa = (EditText) findViewById(R.id.txtPesquisa);
@@ -76,5 +86,4 @@ public class AtContatos extends AppCompatActivity implements android.view.View.O
             spam.show();
         }
     }
-
 }

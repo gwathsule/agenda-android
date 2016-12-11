@@ -40,4 +40,12 @@ public class CtrContatos {
     public void inserirContato(Contato contato){
         contatoDAO.inserirContato(contato, sqlite_conexao);
     }
+
+    public void alterarContato(Contato contato){
+        contatoDAO.alterarContato(contato, sqlite_conexao);
+    }
+
+    public void excluirContato(long id){
+        contatoDAO.excluirContato(id, sqlite_conexao);
+    }
 }
