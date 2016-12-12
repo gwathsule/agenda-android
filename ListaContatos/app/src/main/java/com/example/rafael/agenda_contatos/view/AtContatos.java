@@ -55,7 +55,7 @@ public class AtContatos extends FragmentActivity implements android.view.View.On
 
     @Override
     public void onClick(View v) {
-            Intent it = new Intent(this, AtNovoContato.class);
+        Intent it = new Intent(this, AtNovoContato.class);
 
         startActivityForResult(it, 0);
     }

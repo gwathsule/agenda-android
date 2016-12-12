@@ -1,20 +1,24 @@
 package com.example.rafael.agenda_contatos.view.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.rafael.agenda_contatos.R;
 import com.example.rafael.agenda_contatos.model.Contato;
 import com.example.rafael.agenda_contatos.view.AtNovoContato;
+import com.example.rafael.agenda_contatos.view.MapaContatos;
 
 import java.text.DateFormat;
 
@@ -29,15 +33,6 @@ public class Frg_contatos extends Fragment {
     private EditText txtDatasEspeciais;
     private EditText txtGrupo;
 
-    /*----*/
-
-    private TextView lnlTelefone;
-    private TextView lnlEmail;
-    private TextView lnlEndereço;
-    private TextView lnlDatasEspeciais;
-
-    /*----*/
-
     private Spinner spnTipoTelefone;
     private Spinner spnTipoEmail;
     private Spinner spnTipoEndereco;
@@ -48,6 +43,9 @@ public class Frg_contatos extends Fragment {
     private ArrayAdapter<String> adpTipoEndereco;
     private ArrayAdapter<String> adpTipoDatasEspeciais;
 
+    private ImageButton btAlterar;
+    private Contato contato;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -57,8 +55,16 @@ public class Frg_contatos extends Fragment {
         return view;
     }
 
-    public void preencherDadosContato(Contato contato){
+    public void abrirMapa(){
+        String endereco = contato.getEndereco();
 
+        Intent it = new Intent(getContext(), MapaContatos.class);
+        it.putExtra("endereco", endereco);
+        startActivityForResult(it, 0);
+    }
+
+    public void preencherDadosContato(Contato contato){
+        this.contato = contato;
         txtNome.setText(contato.getNome());
         txtTelefone.setText(contato.getTelefone());
         txtEmail.setText(contato.getEmail());
@@ -75,7 +81,6 @@ public class Frg_contatos extends Fragment {
         spnTipoEndereco.setSelection(Integer.parseInt(contato.getTipoEndereco()));
         spnTipoDatasEspeciais.setSelection(Integer.parseInt(contato.getTipoDatasEspeciais()));
 
-        lnlTelefone.setText(spnTipoTelefone.getSelectedItem().toString());
 
     }
 
@@ -87,15 +92,23 @@ public class Frg_contatos extends Fragment {
         txtDatasEspeciais = (EditText) view.findViewById(R.id.txtDatasEspeciais_fr);
         txtGrupo = (EditText) view.findViewById(R.id.txtGrupo_fr);
 
-        lnlTelefone =  (TextView) view.findViewById(R.id.lnl_telefone_fr);
-        lnlEmail = (TextView) view.findViewById(R.id.lnl_email_fr);
-        lnlEndereço = (TextView) view.findViewById(R.id.lnl_endereco_fr);
-        lnlDatasEspeciais = (TextView) view.findViewById(R.id.lnl_datas_especiais_fr);
-
         spnTipoTelefone = (Spinner) view.findViewById(R.id.spnTipoTelefone_fr);
         spnTipoEmail = (Spinner) view.findViewById(R.id.spnTipoEmail_fr);
         spnTipoEndereco = (Spinner) view.findViewById(R.id.spnTipoEndereco_fr);
         spnTipoDatasEspeciais= (Spinner) view.findViewById(R.id.spnTipoDatasEspeciais_fr);
+
+        btAlterar = (ImageButton) view.findViewById(R.id.btAlt);
+
+        btAlterar.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View InputFragmentView)
+            {
+                if (contato != null){
+                    abrirMapa();
+                }
+            }
+        });
 
         //construtor dos spinner passando como referencia essa activity e setando o layout padrão "simple_spinner_item"
         adpTipoTelefone = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item);
@@ -134,5 +147,12 @@ public class Frg_contatos extends Fragment {
         adpTipoDatasEspeciais.add("Morte");
         adpTipoDatasEspeciais.add("Outros");
 
+    }
+
+    private void info(String info){
+        AlertDialog.Builder spam = new AlertDialog.Builder(getActivity());
+        spam.setMessage(info);
+        spam.setNeutralButton("OK", null);
+        spam.show();
     }
 }

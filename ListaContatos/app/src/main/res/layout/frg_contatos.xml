@@ -16,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/lnl_info_contatos_fr">
+
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -223,6 +224,25 @@
                     android:id="@+id/txtGrupo_fr"
                     android:layout_weight="1"
                     android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="57dp">
+
+                <ImageButton
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:id="@+id/btAlt"
+                    android:background="@drawable/oval"
+                    android:elevation="10dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="65dp"
+                    android:layout_marginRight="25dp"
+                    android:src="@android:drawable/ic_dialog_map"
+                    />
 
             </LinearLayout>
 
